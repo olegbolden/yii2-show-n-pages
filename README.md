@@ -48,10 +48,12 @@ Actual page size for your data provider is available with the following call
 $dataProvider = new ActiveDataProvider([
     'query' => $query,
     'pagination' => [
-        'pageSize' => \olegbolden\showNpages\helpers\PageSizeStorage::getPageSize()
+        'pageSize' => \olegbolden\showNpages\helpers\PageSizeStorage::getPageSize('statistics')
     ]
 ]);
 ```
+where optional argument 'statistics' (default is 'main') specifies section identifier for the corresponding widget.
+
 Options
 -----
 The following options are available 

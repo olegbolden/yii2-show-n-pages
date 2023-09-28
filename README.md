@@ -22,13 +22,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist olegbolden/yii2-show-n-pages-widget "*"
+php composer.phar require --prefer-dist olegbolden/yii2-show-n-pages "*"
 ```
 
 or add
 
 ```
-"olegbolden/yii2-show-n-pages-widget": "*"
+"olegbolden/yii2-show-n-pages": "*"
 ```
 
 to the require section of your `composer.json` file.

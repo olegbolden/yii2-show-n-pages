@@ -10,12 +10,13 @@ use olegbolden\showNpages\helpers\PageSizeStorage;
  */
 class PageSizeWidget extends Widget
 {
-    const LANG_SHOW = 'show';
+    const LANG_SHOW    = 'show';
     const LANG_ENTRIES = 'entries';
-    const LANG_ALL = 'all';
+    const LANG_ALL     = 'all';
 
     /**
      * Default  translations
+     *
      * @var array
      */
     const LANG_DEFAULT = [
@@ -26,50 +27,38 @@ class PageSizeWidget extends Widget
 
     /**
      * Translations
+     *
      * @var array
      */
     public $lang = self::LANG_DEFAULT;
 
     /**
      * Url to set page size
+     *
      * @var string
      */
     public $url = '/show-n-pages/set-page';
 
     /**
      * Optional parameter to distinguish between different sections if necessary
+     *
      * @var string
      */
-    public $section = 'main';
-
-    /**
-     * Set of page size values for dropdown selector
-     * @var array
-     */
-    public $pageSizes = PageSizeStorage::PAGE_SIZES;
+    public $section = PageSizeStorage::DEFAULT_SECTION;
 
     /**
      * Class for dropdown selector itself
+     *
      * @var string
      */
     public $innerClass = '';
 
     /**
      * Wrapper class for dropdown selector
+     *
      * @var string
      */
     public $wrapperClass = '';
-
-    /**
-     * @var PageSizeStorage
-     */
-    private $pageSizeStorage;
-
-    public function __construct(PageSizeStorage $pageSizeStorage, $config = [])
-    {
-        parent::__construct($config);
-        $this->pageSizeStorage = $pageSizeStorage;
-    }
 
     /**
      * @return string
@@ -78,15 +67,30 @@ class PageSizeWidget extends Widget
      */
     public function run()
     {
-        $pageSizeStorage = $this->pageSizeStorage;
         return $this->render('list', [
             'url'          => $this->url,
             'section'      => $this->section,
             'lang'         => $this->lang,
-            'pageSize'     => $pageSizeStorage::getPageSize($this->section),
-            'pageSizes'    => $this->pageSizes,
+            'pageSizeInfo' => PageSizeStorage::getPageSizeInfo($this->section),
             'wrapperClass' => $this->wrapperClass,
             'innerClass'   => $this->innerClass,
         ]);
+    }
+
+    /**
+     * Initialization of widget storage with specified configuration
+     *
+     * @param $config
+     *
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
+     */
+    public static function getPageSize($config = ['section' => 'main', 'pageSizes' => PageSizeStorage::DEFAULT_PAGE_SIZES])
+    {
+        return PageSizeStorage::updatePageSizeInfo(
+            isset($config['section']) ? $config['section'] : null,
+            isset($config['pageSizes']) ? $config['pageSizes'] : null
+        )['pageSize'];
     }
 }

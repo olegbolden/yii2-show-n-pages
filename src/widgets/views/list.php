@@ -4,8 +4,7 @@
  * @var \yii\web\View $this
  * @var string $url
  * @var string $section
- * @var int $pageSize
- * @var array $pageSizes
+ * @var int $pageSizeInfo
  * @var array $lang
  * @var string $wrapperClass
  * @var string $innerClass
@@ -13,6 +12,9 @@
 
 use olegbolden\showNpages\helpers\PageSizeStorage;
 use olegbolden\showNpages\widgets\PageSizeWidget;
+
+$pageSize = $pageSizeInfo['pageSize'];
+$pageSizes = $pageSizeInfo['pageSizes'];
 
 echo '<div class="' . $wrapperClass . '">
     <span class="' . $innerClass . '">'

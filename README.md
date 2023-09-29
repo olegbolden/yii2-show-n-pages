@@ -1,6 +1,6 @@
 Page size selector widget (for DetailView, GridView etc.)
 =================================
-By default there is no page size selector for Yii2 in multi page listings 
+By default, there is no page size selector for Yii2 in multiple page listings 
 created with widgets like DetailView etc. This extension adds such a functionality 
 in popular javascript DataTables-like style without jQuery.
 
@@ -37,26 +37,32 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Once the extension is installed, simply use it in your View code by:
-
-```php
-<?= \olegbolden\showNpages\widgets\PageSizeWidget::widget([options]); ?>
-```
-Actual page size for your data provider is available with the following call
+1. First step is to specify actual page size provided by this widget for your data provider
 
 ```php
 $dataProvider = new ActiveDataProvider([
     'query' => $query,
     'pagination' => [
-        'pageSize' => \olegbolden\showNpages\helpers\PageSizeStorage::getPageSize('statistics')
-    ]
+        'pageSize' => PageSizeWidget::getPageSize([
+            'section'   => 'statistics',
+            'pageSizes' => [25, 50, 100],
+        ]),
+    ],
 ]);
 ```
-where optional argument 'statistics' (default is 'main') specifies section identifier for the corresponding widget.
+`'section'` parameter specifies section identifier for the corresponding widget because there are may be several places in your site with different PageSizeWidget instances having their own page settings so widget needs these identifiers to distinguish between them. In case you use the only instance then section identifier can be omitted and defaults to 'main'.
+
+`'pageSizes'` parameter specifies custom set of predefined page sizes in case you are not satisfied with the default one for corresponding data provider. Default is [10, 25, 50, 100, All] and can be also omitted. It is useful if you want to exclude option "All" among page sizes in case your data set is very big and there is no sense to show all items on the only page.
+
+2. Now you can insert the Widget in your View code by
+
+```php
+<?= PageSizeWidget::widget($options); ?>
+```
 
 Options
 -----
-The following options are available 
+The following arrayed options are available 
 
 **lang**
 
@@ -72,19 +78,11 @@ Language settings
 **section**
 
 Optional parameter to distinguish between widgets for different sections 
-of your site to set independent page size settings for each.
+of your site to set independent page size settings for each. 
+
+It's important, that each `'section'` specified here MUST have the same `'section'` in corresponding data provider pagination setup described above. 
 ```php
 'section' => 'statistics'
-```
-
-**pageSizes**
-
-Custom set of predefined page sizes in case you are not satisfied with the default one.
-
-It is useful if you want to exclude option "all" among page sizes in case your 
-data set is very big and there is no sense to show all items on the only page.
-```php
-'pageSizes' => [10, 50, 100]
 ```
 
 **wrapperClass / innerClass**

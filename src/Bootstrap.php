@@ -10,7 +10,7 @@ class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app)
     {
-        if ($app instanceof yii\console\Application) {
+        if ($app instanceof \yii\console\Application) {
             return;
         }
 

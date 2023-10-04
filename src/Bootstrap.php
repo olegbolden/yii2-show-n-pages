@@ -10,6 +10,10 @@ class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app)
     {
+        if ($app instanceof yii\console\Application) {
+            return;
+        }
+
         /*
          * Module auto registration
          */
